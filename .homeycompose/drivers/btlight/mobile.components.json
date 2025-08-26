@@ -1,0 +1,59 @@
+{
+  "components": [
+    {
+      "id": "quality",
+      "capabilities": [ "signal_quality" ],
+      "uiComponent": "ternary",
+      "options": {
+        "label": {
+          "en": "Signal",
+          "sv": "Signal"
+        }
+      }
+    },
+    {
+      "id": "rssi_sensor",
+      "capabilities": [ "measure_rssi" ],
+      "uiComponent": "sensor",
+      "options": {
+        "label": {
+          "en": "RSSI",
+          "sv": "RSSI"
+        },
+        "units": {
+          "en": "dBm",
+          "sv": "dBm"
+        }
+      }
+    },
+    {
+      "id": "conn_alarm",
+      "capabilities": [ "alarm_connection" ],
+      "uiComponent": "sensor",
+      "options": {
+        "label": {
+          "en": "Link",
+          "sv": "Länk"
+        }
+      }
+    },
+    {
+      "id": "power",
+      "capabilities": [ "onoff" ],
+      "uiComponent": "toggle"
+    },
+    {
+      "id": "brightness",
+      "capabilities": [ "dim" ],
+      "uiComponent": "slider",
+      "options": {
+        "step": 0.01
+      }
+    },
+    {
+      "id": "color_controls",
+      "capabilities": [ "light_hue", "light_saturation" ],
+      "uiComponent": "color"
+    }
+  ]
+}

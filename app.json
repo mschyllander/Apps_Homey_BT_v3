@@ -1,167 +1,296 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
-  "id": "com.mats.btcustom",
+  "id": "com.mats.the.best.btlight",
+  "version": "1.1.0",
+  "sdk": 3,
+  "compose": true,
+  "compatibility": ">=5.0.0",
   "name": {
-    "en": "Mats BT Custom",
-    "sv": "Mats BT Custom"
+    "en": "BtLight",
+    "sv": "BtLight"
   },
   "description": {
-    "en": "Generic BLE light driver (on/off + RGB) with configurable GATT UUIDs.",
-    "sv": "Generisk BLE-lampa (på/av + RGB) med konfigurerbara GATT-UUID:er."
+    "en": "BLE LED strip with MAC-locked connection, GATT validation and frame-based RGB control",
+    "sv": "BLE LED-list med MAC-låst anslutning, GATT-validering och frame-baserad RGB-styrning"
   },
-  "version": "1.0.1",
-  "author": "Mats Schyllander <mats@arlemark.se>",
-  "sdk": 3,
-  "compatibility": ">=5.0.0",
+  "category": "lights",
+  "brandColor": "#00AEEF",
+  "author": "Mats / mschyllander",
   "permissions": [
     "homey:wireless:ble"
   ],
-  "brandColor": "#0e7490",
-  "category": "lights",
   "images": {
     "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
-  },
-  "tags": {
-    "en": [
-      "bluetooth",
-      "ble",
-      "light",
-      "rgb"
-    ],
-    "sv": [
-      "bluetooth",
-      "ble",
-      "ljus",
-      "rgb"
-    ]
+    "large": "/assets/images/large.png"
   },
   "drivers": [
     {
-      "id": "btlight",
       "name": {
-        "en": "BT Light",
-        "sv": "BT-Lampa"
+        "en": "uac088 Light",
+        "sv": "uac088 Lampa"
       },
+      "id": "btlight",
       "class": "light",
-      "icon": "/drivers/btlight/assets/icon.svg",
-      "images": {
-        "small": "/drivers/btlight/assets/images/small.png",
-        "large": "/drivers/btlight/assets/images/large.png"
-      },
       "capabilities": [
         "onoff",
         "dim",
-        "light_mode",
         "light_hue",
-        "light_saturation"
+        "light_saturation",
+        "alarm_connection",
+        "measure_rssi",
+        "signal_quality"
       ],
+      "capabilitiesOptions": {
+        "measure_rssi": {
+          "title": {
+            "sv": "Signalstyrka",
+            "en": "Signal strength"
+          },
+          "units": {
+            "sv": "dBm",
+            "en": "dBm"
+          },
+          "decimals": 0
+        },
+        "alarm_connection": {
+          "title": {
+            "sv": "Anslutningslarm",
+            "en": "Connection alarm"
+          }
+        },
+        "signal_quality": {
+          "title": {
+            "sv": "Signalkvalitet",
+            "en": "Signal quality"
+          }
+        }
+      },
+      "images": {
+        "small": "/drivers/btlight/assets/small.png",
+        "large": "/drivers/btlight/assets/large.png"
+      },
       "settings": [
         {
-          "id": "serviceUuid",
+          "id": "service_uuid",
           "type": "text",
           "label": {
             "en": "Service UUID",
-            "sv": "Service UUID"
+            "sv": "Service-UUID"
           },
           "hint": {
-            "en": "GATT service UUID (e.g. 0000ffb0-0000-1000-8000-00805f9b34fb)",
-            "sv": "GATT service UUID (t.ex. 0000ffb0-0000-1000-8000-00805f9b34fb)"
-          },
-          "value": "0000ffb0-0000-1000-8000-00805f9b34fb"
-        },
-        {
-          "id": "onOffChar",
-          "type": "text",
-          "label": {
-            "en": "On/Off Characteristic UUID",
-            "sv": "On/Off Characteristic UUID"
-          },
-          "hint": {
-            "en": "Characteristic to write 01/00 (hex) for on/off",
-            "sv": "Characteristic att skriva 01/00 (hex) för på/av"
+            "en": "16-bit (e.g. ffb0/ffe0) or full 128-bit UUID. Leave blank for autodetect.",
+            "sv": "16-bit (t.ex. ffb0/ffe0) eller full 128-bit UUID. Lämna tomt för autodetektering."
           },
           "value": ""
         },
         {
-          "id": "rgbChar",
+          "id": "char_uuid",
           "type": "text",
           "label": {
-            "en": "RGB Characteristic UUID",
-            "sv": "RGB Characteristic UUID"
+            "en": "Write Characteristic UUID",
+            "sv": "Write-karaktäristik UUID"
           },
           "hint": {
-            "en": "Characteristic to write 3 bytes (R,G,B)",
-            "sv": "Characteristic att skriva 3 bytes (R,G,B)"
+            "en": "16-bit (e.g. ffb1/ffe1) or full 128-bit UUID. Leave blank for autodetect.",
+            "sv": "16-bit (t.ex. ffb1/ffe1) eller full 128-bit UUID. Lämna tomt för autodetektering."
           },
           "value": ""
         },
         {
-          "id": "rgbOrder",
-          "type": "dropdown",
+          "id": "rssi_min",
+          "type": "number",
           "label": {
-            "en": "Byte order for color",
-            "sv": "Byteordning för färg"
+            "en": "Minimum RSSI (dBm)",
+            "sv": "Minsta RSSI (dBm)"
           },
-          "values": [
-            {
-              "id": "RGB",
-              "label": {
-                "en": "RGB",
-                "sv": "RGB"
-              }
-            },
-            {
-              "id": "GRB",
-              "label": {
-                "en": "GRB",
-                "sv": "GRB"
-              }
-            },
-            {
-              "id": "BGR",
-              "label": {
-                "en": "BGR",
-                "sv": "BGR"
-              }
-            }
-          ],
-          "value": "RGB"
+          "value": -85,
+          "min": -100,
+          "max": -40,
+          "step": 1
         },
         {
-          "id": "onValue",
-          "type": "text",
+          "id": "connect_min_rssi",
+          "type": "number",
           "label": {
-            "en": "On value (hex)",
-            "sv": "On-värde (hex)"
+            "en": "Min RSSI for connect (dBm)",
+            "sv": "Min RSSI för anslutning (dBm)"
           },
           "hint": {
-            "en": "Hex payload for ON (default 01)",
-            "sv": "Hexvärde för PÅ (standard 01)"
+            "en": "Skip connection attempts while advertised RSSI is below this.",
+            "sv": "Hoppa över anslutningsförsök när annonserad RSSI är lägre än detta."
           },
-          "value": "01"
+          "value": -85,
+          "min": -100,
+          "max": -40,
+          "step": 1
         },
         {
-          "id": "offValue",
-          "type": "text",
+          "id": "metrics_interval_s",
+          "type": "number",
           "label": {
-            "en": "Off value (hex)",
-            "sv": "Off-värde (hex)"
+            "en": "Metrics poll interval (s)",
+            "sv": "Mätintervall (s)"
           },
           "hint": {
-            "en": "Hex payload for OFF (default 00)",
-            "sv": "Hexvärde för AV (standard 00)"
+            "en": "How often to refresh RSSI/indicators.",
+            "sv": "Hur ofta RSSI/indikatorer uppdateras."
           },
-          "value": "00"
+          "value": 60,
+          "min": 15,
+          "max": 600,
+          "step": 5
+        },
+        {
+          "id": "use_frame_dim",
+          "type": "checkbox",
+          "label": {
+            "en": "Use frame-based dim",
+            "sv": "Använd frame-dim"
+          },
+          "value": true
+        },
+        {
+          "id": "led_triplets",
+          "type": "number",
+          "label": {
+            "en": "Triplets per frame",
+            "sv": "Triplets per frame"
+          },
+          "value": 60,
+          "min": 1,
+          "max": 512,
+          "step": 1
+        },
+        {
+          "id": "preset_red",
+          "type": "text",
+          "label": {
+            "en": "Preset RED (hex)",
+            "sv": "Preset RÖD (hex)"
+          },
+          "value": "0AA5000400001432FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF000032FF0000"
+        },
+        {
+          "id": "preset_green",
+          "type": "text",
+          "label": {
+            "en": "Preset GREEN (hex)",
+            "sv": "Preset GRÖN (hex)"
+          },
+          "value": "0AA500040000143200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF003200FF00"
+        },
+        {
+          "id": "preset_blue",
+          "type": "text",
+          "label": {
+            "en": "Preset BLUE (hex)",
+            "sv": "Preset BLÅ (hex)"
+          },
+          "value": "0AA50004000014320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF320000FF"
+        },
+        {
+          "id": "custom_hex",
+          "type": "text",
+          "label": {
+            "en": "Custom HEX (manual test)",
+            "sv": "Egen HEX (manuell test)"
+          },
+          "value": ""
         }
       ],
       "pair": [
         {
           "id": "list_devices",
-          "template": "list_devices"
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": false
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
         }
       ]
     }
-  ]
+  ],
+  "capabilities": {
+    "alarm_connection": {
+      "type": "boolean",
+      "title": {
+        "en": "Connection alarm",
+        "sv": "Anslutningslarm"
+      },
+      "desc": {
+        "en": "True when device is not reachable",
+        "sv": "Sann när enheten inte kan nås"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/connection.svg"
+    },
+    "measure_rssi": {
+      "type": "number",
+      "title": {
+        "en": "Signal strength",
+        "sv": "Signalstyrka"
+      },
+      "desc": {
+        "en": "Bluetooth RSSI",
+        "sv": "Bluetooth RSSI"
+      },
+      "units": {
+        "en": "dBm",
+        "sv": "dBm"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "min": -120,
+      "max": 0,
+      "decimals": 0,
+      "icon": "/assets/rssi.svg"
+    },
+    "signal_quality": {
+      "type": "enum",
+      "title": {
+        "en": "Signal quality",
+        "sv": "Signalkvalitet"
+      },
+      "desc": {
+        "en": "Connection quality derived from RSSI",
+        "sv": "L�nkkvalitet ber�knad fr�n RSSI"
+      },
+      "values": [
+        {
+          "id": "bad",
+          "title": {
+            "en": "Bad",
+            "sv": "D�lig"
+          }
+        },
+        {
+          "id": "ok",
+          "title": {
+            "en": "OK",
+            "sv": "OK"
+          }
+        },
+        {
+          "id": "good",
+          "title": {
+            "en": "Good",
+            "sv": "Bra"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": false,
+      "uiComponent": "ternary",
+      "icon": "/assets/connection.svg"
+    }
+  }
 }

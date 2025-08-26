@@ -1,0 +1,24 @@
+{
+  "name": {
+    "en": "uac088 Light",
+    "sv": "uac088 Lampa"
+  },
+  "class": "light",
+  "capabilities": [ "onoff", "dim" ],
+  "images": {
+    "small": "/drivers/btlight/assets/small.png",
+    "large": "/drivers/btlight/assets/large.png"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "options": { "singular": true },
+      "navigation": { "next": "add_devices" }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

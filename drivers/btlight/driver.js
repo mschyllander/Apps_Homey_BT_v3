@@ -1,69 +1,48 @@
-'use strict';
+﻿'use strict';
 
-const { Driver } = require('homey');
+const Homey = require('homey');
 
-const SERVICE_UUID = '0000ffb0-0000-1000-8000-00805f9b34fb';
-
-// Dina två enheter (både med och utan kolon, blandade case tillåtna)
-const WHITELIST = new Set([
-  '3410183003f7', '34:10:18:30:03:f7',
-  '341018300187', '34:10:18:30:01:87',
-]);
-
-const normAddr = s => (s || '').toLowerCase().replace(/[^0-9a-f]/g, '');
-
-class BtLightDriver extends Driver {
-  onInit() {
-    this.log('BtLight driver init');
-  }
-
-  async onPair(session) {
-    session.setHandler('list_devices', async () => {
-      // Skanna BLE (prova med servicefilter, annars utan)
-      let peripherals = [];
-      try {
-        peripherals = await this.homey.ble.discover([SERVICE_UUID]);
-      } catch {
-        peripherals = await this.homey.ble.discover();
-      }
-
-      // Deduplicera per address/uuid
-      const map = new Map();
-      for (const p of peripherals || []) {
-        const addr = normAddr(p.address || p.uuid || p.id);
-        if (!addr) continue;
-        if (!map.has(addr)) map.set(addr, p);
-      }
-
-      // Filtrera: whitelist OCH/ELLER tjänst + namn
-      const devices = [];
-      for (const [addr, p] of map) {
-        const name = p.localName || p.name || 'BLE Device';
-        const whitelisted = WHITELIST.has(addr) || WHITELIST.has((p.address || '').toLowerCase());
-        if (!whitelisted) continue;
-
-        // Snyggare visningsnamn: sista två bytes
-        const tail = addr.slice(-4).toUpperCase();
-        const niceName = name.toLowerCase().includes('uac') ? `uac088 (${tail})` : `${name} (${tail})`;
-
-        devices.push({
-          name: niceName,
-          data: { id: addr },          // stabil unik ID
-          store: { address: addr },    // kan användas i device.js
-          settings: {
-            serviceUuid: SERVICE_UUID,
-            onOffChar: '',
-            rgbChar: '',
-            rgbOrder: 'RGB',
-            onValue: '01',
-            offValue: '00'
-          }
-        });
-      }
-
-      return devices;
-    });
-  }
+function normUuid(u) {
+    return (u || '').toLowerCase();
 }
 
-module.exports = BtLightDriver;
+module.exports = class BtLightDriver extends Homey.Driver {
+
+    onInit() {
+        this.log('[BtLight] driver init');
+    }
+
+    /**
+     * Pairing list: discover BLE advertisements and show those that look like our lamp
+     * (service FFB0 or name containing uac088).
+     */
+    async onPairListDevices() {
+        // Correct SDK v3 API:
+        const advertisements = await this.homey.ble.discover();
+
+        const items = advertisements
+            .filter(adv => {
+                const name = (adv.localName || '').toLowerCase();
+                const svcs = (adv.serviceUuids || []).map(normUuid);
+                return (
+                    name.includes('uac088') ||
+                    svcs.includes('ffb0') ||
+                    svcs.includes('0000ffb0-0000-1000-8000-00805f9b34fb')
+                );
+            })
+            .map(adv => {
+                const uuid = adv.uuid; // SDK v3 property
+                const rssi = adv.rssi;
+                const name = adv.localName || 'BT Light';
+                const shortId = (uuid || '').replace(/[:-]/g, '').slice(-6).toUpperCase();
+                return {
+                    name: `${name} [${shortId}] RSSI ${typeof rssi === 'number' ? rssi : '?'} dBm`,
+                    data: { id: uuid },
+                    store: { peripheralUuid: uuid, lastRssi: rssi ?? null }
+                };
+            });
+
+        this.log('[BtLight] presenting', items.length, 'device(s)');
+        return items;
+    }
+};

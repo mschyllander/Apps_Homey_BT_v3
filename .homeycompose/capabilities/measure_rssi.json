@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Signal strength",
+    "sv": "Signalstyrka"
+  },
+  "desc": {
+    "en": "Bluetooth RSSI",
+    "sv": "Bluetooth RSSI"
+  },
+  "units": {
+    "en": "dBm",
+    "sv": "dBm"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "min": -120,
+  "max": 0,
+  "decimals": 0,
+  "icon": "/assets/rssi.svg"
+}

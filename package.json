@@ -1,0 +1,12 @@
+{
+  "name": "homey-btlight",
+  "version": "1.0.0",
+  "description": "BLE lights with MAC-locked connection & GATT validation",
+  "main": "app.js",
+  "scripts": {
+    "start": "homey app run"
+  },
+  "author": "Mats / mschyllander",
+  "license": "MIT",
+  "dependencies": {}
+}

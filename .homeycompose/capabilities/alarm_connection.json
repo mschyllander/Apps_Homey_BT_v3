@@ -1,0 +1,15 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Connection alarm",
+    "sv": "Anslutningslarm"
+  },
+  "desc": {
+    "en": "True when device is not reachable",
+    "sv": "Sann när enheten inte kan nås"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/connection.svg"
+}

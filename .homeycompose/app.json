@@ -1,146 +1,23 @@
 {
-  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
-  "id": "com.mats.btcustom",
+  "id": "com.mats.the.best.btlight",
+  "version": "1.1.0",
+  "sdk": 3,
+  "compose": true,
+  "compatibility": ">=5.0.0",
   "name": {
-    "en": "Mats BT Custom",
-    "sv": "Mats BT Custom"
+    "en": "BtLight",
+    "sv": "BtLight"
   },
   "description": {
-    "en": "Generic BLE light driver (on/off + RGB) with configurable GATT UUIDs.",
-    "sv": "Generisk BLE-lampa (på/av + RGB) med konfigurerbara GATT-UUID:er."
+    "en": "BLE LED strip with MAC-locked connection, GATT validation and frame-based RGB control",
+    "sv": "BLE LED-list med MAC-låst anslutning, GATT-validering och frame-baserad RGB-styrning"
   },
-  "version": "1.0.1",
-  "author": "Mats Schyllander <mats@arlemark.se>",
-  "sdk": 3,
-  "compatibility": ">=5.0.0",
-  "permissions": [ "homey:wireless:ble" ],
-
-  "brandColor": "#0e7490",
   "category": "lights",
+  "brandColor": "#00AEEF",
+  "author": "Mats / mschyllander",
+  "permissions": [ "homey:wireless:ble" ],
   "images": {
     "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
-  },
-  "tags": {
-    "en": [ "bluetooth", "ble", "light", "rgb" ],
-    "sv": [ "bluetooth", "ble", "ljus", "rgb" ]
-  },
-
-  "drivers": [
-    {
-      "id": "btlight",
-      "name": {
-        "en": "BT Light",
-        "sv": "BT-Lampa"
-      },
-      "class": "light",
-      "capabilities": [ "onoff", "dim", "light_mode", "light_hue", "light_saturation" ],
-      "settings": [
-        {
-          "id": "serviceUuid",
-          "type": "text",
-          "label": {
-            "en": "Service UUID",
-            "sv": "Service UUID"
-          },
-          "hint": {
-            "en": "GATT service UUID (e.g. 0000ffb0-0000-1000-8000-00805f9b34fb)",
-            "sv": "GATT service UUID (t.ex. 0000ffb0-0000-1000-8000-00805f9b34fb)"
-          },
-          "value": "0000ffb0-0000-1000-8000-00805f9b34fb"
-        },
-        {
-          "id": "onOffChar",
-          "type": "text",
-          "label": {
-            "en": "On/Off Characteristic UUID",
-            "sv": "On/Off Characteristic UUID"
-          },
-          "hint": {
-            "en": "Characteristic to write 01/00 (hex) for on/off",
-            "sv": "Characteristic att skriva 01/00 (hex) för på/av"
-          },
-          "value": ""
-        },
-        {
-          "id": "rgbChar",
-          "type": "text",
-          "label": {
-            "en": "RGB Characteristic UUID",
-            "sv": "RGB Characteristic UUID"
-          },
-          "hint": {
-            "en": "Characteristic to write 3 bytes (R,G,B)",
-            "sv": "Characteristic att skriva 3 bytes (R,G,B)"
-          },
-          "value": ""
-        },
-        {
-          "id": "rgbOrder",
-          "type": "dropdown",
-          "label": {
-            "en": "Byte order for color",
-            "sv": "Byteordning för färg"
-          },
-          "values": [
-            {
-              "id": "RGB",
-              "label": {
-                "en": "RGB",
-                "sv": "RGB"
-              }
-            },
-            {
-              "id": "GRB",
-              "label": {
-                "en": "GRB",
-                "sv": "GRB"
-              }
-            },
-            {
-              "id": "BGR",
-              "label": {
-                "en": "BGR",
-                "sv": "BGR"
-              }
-            }
-          ],
-          "value": "RGB"
-        },
-        {
-          "id": "onValue",
-          "type": "text",
-          "label": {
-            "en": "On value (hex)",
-            "sv": "On-värde (hex)"
-          },
-          "hint": {
-            "en": "Hex payload for ON (default 01)",
-            "sv": "Hexvärde för PÅ (standard 01)"
-          },
-          "value": "01"
-        },
-        {
-          "id": "offValue",
-          "type": "text",
-          "label": {
-            "en": "Off value (hex)",
-            "sv": "Off-värde (hex)"
-          },
-          "hint": {
-            "en": "Hex payload for OFF (default 00)",
-            "sv": "Hexvärde för AV (standard 00)"
-          },
-          "value": "00"
-        }
-      ],
-      "pair": [
-        {
-          "id": "list_devices",
-          "template": "list_devices"
-        }
-      ]
-    }
-  ]
+    "large": "/assets/images/large.png"
+  }
 }

@@ -1,0 +1,20 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Signal quality",
+    "sv": "Signalkvalitet"
+  },
+  "desc": {
+    "en": "Connection quality derived from RSSI",
+    "sv": "Länkkvalitet beräknad från RSSI"
+  },
+  "values": [
+    { "id": "bad",   "title": { "en": "Bad",   "sv": "Dålig"   } },
+    { "id": "ok",    "title": { "en": "OK",    "sv": "OK"      } },
+    { "id": "good",  "title": { "en": "Good",  "sv": "Bra"     } }
+  ],
+  "getable": true,
+  "setable": false,
+  "uiComponent": "ternary",
+  "icon": "/assets/connection.svg"
+}

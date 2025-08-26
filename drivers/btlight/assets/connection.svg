@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M9.5 14.5l-2 2a3 3 0 0 1-4.2-4.3l2-2"></path>
+  <path d="M14.5 9.5l2-2a3 3 0 1 1 4.2 4.3l-2 2"></path>
+  <path d="M8 12l4-4m0 8l4-4"></path>
+  <title>Connection status</title>
+</svg>
